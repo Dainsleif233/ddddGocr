@@ -28,17 +28,11 @@ func EnhancedSlideMatchWithPath(targetImagePath, backgroundImagePath string) (*d
 	return ddddgocr.EnhancedSlideMatchWithPath(targetImagePath, backgroundImagePath)
 }
 
-func SlideComparison(targetImageData, backgroundImageData []byte) (*struct {
-	First  uint32
-	Second uint32
-}, error) {
+func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideComparisonResult, error) {
 	return ddddgocr.SlideComparison(targetImageData, backgroundImageData)
 }
 
-func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*struct {
-	First  uint32
-	Second uint32
-}, error) {
+func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*ddddgocr.SlideComparisonResult, error) {
 	return ddddgocr.SlideComparisonWithPath(targetImagePath, backgroundImagePath)
 }
 
@@ -50,6 +44,6 @@ func main() {
 	// 	return
 	// }
 
-	// fmt.Printf("匹配结果: X1=%d\n",
-	// 	result.First)
+	// fmt.Printf("匹配结果: X=%d\n",
+	// 	result.X)
 }

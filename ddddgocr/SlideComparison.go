@@ -12,12 +12,15 @@ import (
 	"os"
 )
 
+// SlideComparisonResult 坑位匹配结果
+type SlideComparisonResult struct {
+	X uint32 `json:"x"`
+	Y uint32 `json:"y"`
+}
+
 // SlideComparison 坑位匹配
 // 通过比较两张相同尺寸的图片，找出差异区域来定位坑位位置
-func SlideComparison(targetImageData, backgroundImageData []byte) (*struct {
-	First  uint32
-	Second uint32
-}, error) {
+func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideComparisonResult, error) {
 	// 解码图像
 	targetImg, _, err := image.Decode(bytes.NewReader(targetImageData))
 	if err != nil {
@@ -98,17 +101,14 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*struct {
 		}
 	}
 
-	return &struct {
-		First  uint32
-		Second uint32
-	}{startX, startY}, nil
+	return &SlideComparisonResult{
+		X: startX,
+		Y: startY,
+	}, nil
 }
 
 // SlideComparisonWithPath 从文件路径读取图像进行坑位匹配
-func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*struct {
-	First  uint32
-	Second uint32
-}, error) {
+func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*SlideComparisonResult, error) {
 	targetData, err := os.ReadFile(targetImagePath)
 	if err != nil {
 		return nil, fmt.Errorf("读取目标图像文件失败: %v", err)
