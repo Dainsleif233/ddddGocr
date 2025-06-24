@@ -28,14 +28,28 @@ func EnhancedSlideMatchWithPath(targetImagePath, backgroundImagePath string) (*d
 	return ddddgocr.EnhancedSlideMatchWithPath(targetImagePath, backgroundImagePath)
 }
 
+func SlideComparison(targetImageData, backgroundImageData []byte) (*struct {
+	First  uint32
+	Second uint32
+}, error) {
+	return ddddgocr.SlideComparison(targetImageData, backgroundImageData)
+}
+
+func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*struct {
+	First  uint32
+	Second uint32
+}, error) {
+	return ddddgocr.SlideComparisonWithPath(targetImagePath, backgroundImagePath)
+}
+
 func main() {
 	// 使用示例
-	// result, err := EnhancedSlideMatchWithPath("test/tgt1.png", "test/bgd1.png")
+	// result, err := SlideComparisonWithPath("test/bgd1.jpg", "test/bg1.png")
 	// if err != nil {
 	// 	fmt.Printf("滑块匹配失败: %v\n", err)
 	// 	return
 	// }
 
-	// fmt.Printf("匹配结果: X1=%d, Y1=%d, X2=%d, Y2=%d, TargetY=%d\n",
-	// 	result.X1, result.Y1, result.X2, result.Y2, result.TargetY)
+	// fmt.Printf("匹配结果: X1=%d\n",
+	// 	result.First)
 }

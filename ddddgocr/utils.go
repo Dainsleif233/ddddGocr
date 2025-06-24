@@ -401,3 +401,11 @@ func rgbaToGrayScale(img *image.RGBA) *image.Gray {
 
 	return gray
 }
+
+// absDiff 计算两个uint8值的绝对差值
+func absDiff(a, b uint8) uint8 {
+	if a > b {
+		return a - b
+	}
+	return b - a
+}
