@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Dainsleif233/ddddGocr/ddddgocr"
+	"github.com/Dainsleif233/ddddGocr/ddddgocr/withopencv"
 )
 
 func SlideMatch(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideBBox, error) {
@@ -36,14 +37,46 @@ func SlideComparisonWithPath(targetImagePath, backgroundImagePath string) (*dddd
 	return ddddgocr.SlideComparisonWithPath(targetImagePath, backgroundImagePath)
 }
 
+func SlideMatchUseOpenCV(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideBBox, error) {
+	return withopencv.SlideMatch(targetImageData, backgroundImageData)
+}
+
+func SlideMatchWithPathUseOpenCV(targetImagePath, backgroundImagePath string) (*ddddgocr.SlideBBox, error) {
+	return withopencv.SlideMatchWithPath(targetImagePath, backgroundImagePath)
+}
+
+func SimpleSlideMatchUseOpenCV(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideBBox, error) {
+	return withopencv.SimpleSlideMatch(targetImageData, backgroundImageData)
+}
+
+func SimpleSlideMatchWithPathUseOpenCV(targetImagePath, backgroundImagePath string) (*ddddgocr.SlideBBox, error) {
+	return withopencv.SimpleSlideMatchWithPath(targetImagePath, backgroundImagePath)
+}
+
+func EnhancedSlideMatchUseOpenCV(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideBBox, error) {
+	return withopencv.EnhancedSlideMatch(targetImageData, backgroundImageData)
+}
+
+func EnhancedSlideMatchWithPathUseOpenCV(targetImagePath, backgroundImagePath string) (*ddddgocr.SlideBBox, error) {
+	return withopencv.EnhancedSlideMatchWithPath(targetImagePath, backgroundImagePath)
+}
+
+func SlideComparisonUseOpenCV(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideComparisonResult, error) {
+	return withopencv.SlideComparison(targetImageData, backgroundImageData)
+}
+
+func SlideComparisonWithPathUseOpenCV(targetImagePath, backgroundImagePath string) (*ddddgocr.SlideComparisonResult, error) {
+	return withopencv.SlideComparisonWithPath(targetImagePath, backgroundImagePath)
+}
+
 func main() {
 	// 使用示例
-	// result, err := SlideComparisonWithPath("test/bgd1.jpg", "test/bg1.png")
+	// result, err := withopencv.EnhancedSlideMatchWithPath("test/tgt1.png", "test/bgd1.jpg")
+	// result, err := EnhancedSlideMatchWithPathUseOpenCV("test/tgt2.png", "test/bgd2.png")
 	// if err != nil {
-	// 	fmt.Printf("滑块匹配失败: %v\n", err)
+	// 	print("滑块匹配失败: " + err.Error() + "\n")
 	// 	return
 	// }
 
-	// fmt.Printf("匹配结果: X=%d\n",
-	// 	result.X)
+	// print(result.X1)
 }
