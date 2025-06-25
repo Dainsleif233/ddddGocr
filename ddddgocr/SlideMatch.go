@@ -14,17 +14,7 @@ import (
 
 // SlideBBox 滑块边界框结构
 type SlideBBox struct {
-	TargetY int `json:"target_y"`
-	X1      int `json:"x1"`
-	Y1      int `json:"y1"`
-	X2      int `json:"x2"`
-	Y2      int `json:"y2"`
-}
-
-// SlideComparisonResult 坑位匹配结果
-type SlideComparisonResult struct {
-	X uint32 `json:"x"`
-	Y uint32 `json:"y"`
+	TargetY, X1, Y1, X2, Y2 int
 }
 
 // 滑块匹配主函数
@@ -375,7 +365,7 @@ func findBestYPosition(background, target *image.Gray, x int) int {
 
 // SlideComparison 坑位匹配
 // 通过比较两张相同尺寸的图片，找出差异区域来定位坑位位置
-func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideComparisonResult, error) {
+func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideBBox, error) {
 	// 解码图像
 	targetImg, _, err := image.Decode(bytes.NewReader(targetImageData))
 	if err != nil {
@@ -425,7 +415,7 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideCompari
 		}
 	}
 
-	var startX, startY uint32 = 0, 0
+	var startX, startY int = 0, 0
 
 	// 按列扫描寻找差异区域
 	for x := range width {
@@ -442,7 +432,7 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideCompari
 			// 如果连续发现5个差异像素且还未设置startY
 			if count >= 5 && startY == 0 {
 				if y >= 5 {
-					startY = uint32(y - 5)
+					startY = int(y - 5)
 				} else {
 					startY = 0
 				}
@@ -451,13 +441,13 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*SlideCompari
 
 		// 如果该列有足够的差异像素，说明找到了坑位的起始位置
 		if count >= 5 {
-			startX = uint32(x + 2) // 稍微向右偏移2个像素
+			startX = int(x + 2) // 稍微向右偏移2个像素
 			break
 		}
 	}
 
-	return &SlideComparisonResult{
-		X: startX,
-		Y: startY,
+	return &SlideBBox{
+		X1: startX,
+		Y1: startY,
 	}, nil
 }

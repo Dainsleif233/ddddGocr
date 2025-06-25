@@ -399,7 +399,7 @@ func siftFeatureMatch(background, target gocv.Mat) *ddddgocr.SlideBBox {
 
 // SlideComparison 坑位匹配
 // 通过比较两张相同尺寸的图片，找出差异区域来定位坑位位置
-func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideComparisonResult, error) {
+func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.SlideBBox, error) {
 	// 从字节数据解码为Mat
 	targetMat, err := gocv.IMDecode(targetImageData, gocv.IMReadColor)
 	if err != nil {
@@ -434,7 +434,7 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.Sli
 	defer binaryMat.Close()
 	gocv.Threshold(grayMat, &binaryMat, 80, 255, gocv.ThresholdBinary)
 
-	var startX, startY uint32 = 0, 0
+	var startX, startY int = 0, 0
 
 	// 按列扫描寻找差异区域
 	width := binaryMat.Cols()
@@ -454,7 +454,7 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.Sli
 			// 如果连续发现5个差异像素且还未设置startY
 			if count >= 5 && startY == 0 {
 				if y >= 5 {
-					startY = uint32(y - 5)
+					startY = int(y - 5)
 				} else {
 					startY = 0
 				}
@@ -463,13 +463,13 @@ func SlideComparison(targetImageData, backgroundImageData []byte) (*ddddgocr.Sli
 
 		// 如果该列有足够的差异像素，说明找到了坑位的起始位置
 		if count >= 5 {
-			startX = uint32(x + 2) // 稍微向右偏移2个像素
+			startX = int(x + 2) // 稍微向右偏移2个像素
 			break
 		}
 	}
 
-	return &ddddgocr.SlideComparisonResult{
-		X: startX,
-		Y: startY,
+	return &ddddgocr.SlideBBox{
+		X1: startX,
+		Y1: startY,
 	}, nil
 }
