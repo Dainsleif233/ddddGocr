@@ -1,4 +1,4 @@
-package main
+package ddddGocr
 
 import (
 	"encoding/base64"
@@ -88,15 +88,4 @@ func SlideMatchWithByte(targetData, backgroundData []byte, matchType SlideMatchT
 			return nil, fmt.Errorf("匹配类型错误")
 		}
 	}
-}
-
-func main() {
-	// 使用示例
-	// result, err := SlideMatch("test/bgd1.jpg", "test/bg1.png", Comparison, OpenCV)
-	// if err != nil {
-	// 	print("滑块匹配失败: " + err.Error() + "\n")
-	// 	return
-	// }
-
-	// print(result.X1)
 }
