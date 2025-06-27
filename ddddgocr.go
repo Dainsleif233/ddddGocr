@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/Dainsleif233/ddddGocr/ddddgocr"
-	"github.com/Dainsleif233/ddddGocr/ddddgocr/withopencv"
 )
 
 type MatchEngine string
@@ -62,18 +61,7 @@ func SlideMatch(targetStr, backgroundStr string, matchType SlideMatchType, match
 // 比较模式的背景图为完整图片
 func SlideMatchWithByte(targetData, backgroundData []byte, matchType SlideMatchType, matchEngine MatchEngine) (*ddddgocr.SlideBBox, error) {
 	if matchEngine == OpenCV {
-		switch matchType {
-		case Simple:
-			return withopencv.SimpleSlideMatch(targetData, backgroundData)
-		case Standard:
-			return withopencv.SlideMatch(targetData, backgroundData)
-		case Enhanced:
-			return withopencv.EnhancedSlideMatch(targetData, backgroundData)
-		case Comparison:
-			return withopencv.SlideComparison(targetData, backgroundData)
-		default:
-			return nil, fmt.Errorf("匹配类型错误")
-		}
+		return slideMatchWithOpenCV(targetData, backgroundData, matchType)
 	} else {
 		switch matchType {
 		case Simple:
